@@ -1,5 +1,12 @@
 package com.example.controller;
 
+import com.example.service.AccountService;
+import com.example.service.MessageService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -8,5 +15,12 @@ package com.example.controller;
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
 public class SocialMediaController {
+    MessageService messageService;
+    AccountService accountService;
+
+    public SocialMediaController(){
+        this.messageService = new MessageService();
+        this.accountService = new AccountService();
+    }
 
 }
