@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.entity.Account;
 import com.example.entity.Message;
+import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,17 @@ public class MessageService {
 
     @Autowired
     MessageRepository messageRepository;
-
-    // @Autowired
-    // public MessageService(MessageRepository messageRepository){
-    //     this.messageRepository = messageRepository;
-    // }
+    @Autowired
+    AccountRepository accountRepository;
 
     public Message addMessage(Message message) {
-        return messageRepository.save(message);
+        Optional <Account> optionalAccount = accountRepository.findById(Long.valueOf(message.getPostedBy()));
+        if (!message.getMessageText().isEmpty()
+            && message.getMessageText().length() < 256
+            && optionalAccount.isPresent()) {
+                return messageRepository.save(message);
+        }
+        return null;
     }
 
     public List<Message> getAllMessages() {
@@ -65,15 +69,8 @@ public class MessageService {
         return messageRetrieved;
     }
 
-    // NOT WORKING
-    // public List<Message> getMessageByUser(Iterable posted_by) {
-    //     Optional<List> optionalMessage = messageRepository.findAllById(posted_by);
-    //     List<Message> messages = null;
-
-    //     if (optionalMessage.isPresent()) {
-    //         messageRetrieved = optionalMessage.get();
-    //     }
-    //     return messages;
-    // }
+    public List<Message> getMessageByUser(Iterable <Long> posted_by) {
+        return messageRepository.findAllById(posted_by);
+    }
     
 }

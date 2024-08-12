@@ -17,6 +17,12 @@ public class AccountService {
     AccountRepository accountRepository;
 
     public Account addAccount(Account account) {
+        // if (!account.getUsername().isEmpty()
+        //     && account.getPassword().length() > 3
+        //     && this.accountDAO.getAccountByUsername(account.getUsername()) == null) {
+        //         return this.accountDAO.createNewAccount(account);
+        // }
+        // return null;
         return accountRepository.save(account);
     }
 
