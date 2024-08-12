@@ -18,21 +18,28 @@ public class AccountService {
 
     public Account addAccount(Account account) {
         Optional<Account> optionalAccount = accountRepository.findById(Long.valueOf(account.getUsername()));
+        
         if (!account.getUsername().isEmpty()
             && account.getPassword().length() > 3
             && !optionalAccount.isPresent()) {
                 return accountRepository.save(account);
         }
+        
         return null;
     }
 
-    // public Account loginAccount(Account account) {
-    //     Account userCredentials = this.accountDAO.getAccountByUsername(account.getUsername());
-    //     if ((userCredentials != null)
-    //     && userCredentials.getPassword().equalsIgnoreCase(account.getPassword())) {
-    //         return userCredentials;
-    //     }
-    //     return null;
-    // }
-    // ^ How can I retrieve the account name if I don't have the id?
+    public Account loginAccount(Account account) {
+        Optional<Account> optionalAccount = accountRepository.findById(Long.valueOf(account.getUsername()));
+        Account accountRetrived = null;
+
+        if (optionalAccount.isPresent()){
+            accountRetrived = optionalAccount.get();
+
+            if (accountRetrived.getPassword().equalsIgnoreCase(account.getPassword())) {
+                return accountRetrived; //returning accountId as = 0
+            }
+        }
+
+        return null;
+    }
 }
