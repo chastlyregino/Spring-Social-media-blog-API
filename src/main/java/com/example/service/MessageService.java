@@ -22,11 +22,13 @@ public class MessageService {
 
     public Message addMessage(Message message) {
         Optional <Account> optionalAccount = accountRepository.findById(Long.valueOf(message.getPostedBy()));
+        
         if (!message.getMessageText().isEmpty()
             && message.getMessageText().length() < 256
             && optionalAccount.isPresent()) {
                 return messageRepository.save(message);
         }
+        
         return null;
     }
 

@@ -17,13 +17,13 @@ public class AccountService {
     AccountRepository accountRepository;
 
     public Account addAccount(Account account) {
-        // if (!account.getUsername().isEmpty()
-        //     && account.getPassword().length() > 3
-        //     && this.accountDAO.getAccountByUsername(account.getUsername()) == null) {
-        //         return this.accountDAO.createNewAccount(account);
-        // }
-        // return null;
-        return accountRepository.save(account);
+        Optional<Account> optionalAccount = accountRepository.findById(Long.valueOf(account.getUsername()));
+        if (!account.getUsername().isEmpty()
+            && account.getPassword().length() > 3
+            && !optionalAccount.isPresent()) {
+                return accountRepository.save(account);
+        }
+        return null;
     }
 
     // public Account loginAccount(Account account) {
