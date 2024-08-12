@@ -56,26 +56,26 @@ public class SocialMediaController {
     }
 
     @GetMapping("/messages/{messageId}")
-    public @ResponseBody Message getMessageById(@RequestBody Message message) {
+    public @ResponseBody Message getMessageById(@PathVariable long messageId, @RequestBody Message message) {
         return message;
         //status will always be 200;
     }
 
     @DeleteMapping("/messages/{messageId}")
-    public @ResponseBody Message deleteMessageById(@RequestBody Message message) {
+    public @ResponseBody Message deleteMessageById(@PathVariable long messageId, @RequestBody Message message) {
         return message;
         //status will always be 200;
     }
 
     @PatchMapping("/messages/{messageId}")
-    public @ResponseBody Message updateMessageById(@RequestBody Message message) {
+    public @ResponseBody Message updateMessageById(@PathVariable long messageId, @RequestBody Message message) {
         return message;
         //success is 200 JSON of the message
         //if unsuccessful, not found/updated - response status is 400
     }
 
     @GetMapping("/accounts/{accountId}/messages")
-    public @ResponseBody List<Message> getMessagesByAccountId(@RequestBody List<Message> message) {
+    public @ResponseBody List<Message> getMessagesByAccountId(@PathVariable long accountId, @RequestBody List<Message> message) {
         return message;
        //status will always be 200;
     }
