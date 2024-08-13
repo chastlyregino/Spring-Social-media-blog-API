@@ -17,29 +17,38 @@ public class AccountService {
     AccountRepository accountRepository;
 
     public Account addAccount(Account account) {
-        Optional<Account> optionalAccount = accountRepository.findById(Long.valueOf(account.getUsername()));
-        
+        Optional<Account> optionalAccount = accountRepository.findByUsername(account.getUsername());
+        // 
         if (!account.getUsername().isEmpty()
-            && account.getPassword().length() > 3
+            && account.getPassword().length() >= 4
             && !optionalAccount.isPresent()) {
                 return accountRepository.save(account);
         }
+
+        // if (optionalAccount.isPresent()) {
+        //     return account; // no ID present when returned
+        // }
         
         return null;
     }
 
     public Account loginAccount(Account account) {
-        Optional<Account> optionalAccount = accountRepository.findById(Long.valueOf(account.getUsername()));
-        Account accountRetrived = null;
+        Optional<Account> optionalAccount = accountRepository.findByUsername(account.getUsername());
 
         if (optionalAccount.isPresent()){
-            accountRetrived = optionalAccount.get();
+            Account accountRetrived = optionalAccount.get();
 
-            if (accountRetrived.getPassword().equalsIgnoreCase(account.getPassword())) {
+            if (accountRetrived.getPassword().equals(account.getPassword())
+            && accountRetrived.getUsername().equals(account.getUsername())
+            && accountRetrived.getAccountId() != null) {
                 return accountRetrived; //returning accountId as = 0
             }
         }
 
         return null;
+    }
+
+    public Optional<Account> findByUsername(String username) {
+        return accountRepository.findByUsername(username);
     }
 }
