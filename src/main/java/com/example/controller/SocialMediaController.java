@@ -63,39 +63,59 @@ public class SocialMediaController {
 
     @PostMapping("/messages")
     public ResponseEntity<Message> addMessages(@RequestBody Message message) {
-        return ResponseEntity.status(200).body(message);
+        Message messageObject = messageService.addMessage(message);
+
+        if (messageObject != null) {
+            return ResponseEntity.status(200).body(messageObject);
+        }
+
+        return ResponseEntity.status(400).body(null);
         //success is 200 JSON of the message
         //if unsuccessful, others - response status is 400
     }
 
     @GetMapping("/messages")
     public ResponseEntity<List<Message>> getAllMessages(@RequestBody List<Message> message) {
-        return ResponseEntity.status(200).body(message);
+        List<Message> messageObject = messageService.getAllMessages();
+
+        return ResponseEntity.status(200).body(messageObject);
         //status will always be 200;
     }
 
     @GetMapping("/messages/{messageId}")
     public ResponseEntity<Message> getMessageById(@PathVariable long messageId, @RequestBody Message message) {
-        return ResponseEntity.status(200).body(null);
+        Message messageObject = messageService.getMessageById(messageId);
+        
+        return ResponseEntity.status(200).body(messageObject);
         //status will always be 200;
     }
 
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<Message> deleteMessageById(@PathVariable long messageId, @RequestBody Message message) {
-        return ResponseEntity.status(200).body(message);
+        Message messageObject = messageService.getMessageById(messageId);
+        
+        return ResponseEntity.status(200).body(messageObject);
         //status will always be 200;
     }
 
     @PatchMapping("/messages/{messageId}")
     public ResponseEntity<Message> updateMessageById(@PathVariable long messageId, @RequestBody Message message) {
-        return ResponseEntity.status(200).body(message);
+        Message messageObject = messageService.updateMessageById(message, messageId);
+
+        if (messageObject != null) {
+            return ResponseEntity.status(200).body(messageObject);
+        }
+
+        return ResponseEntity.status(400).body(null);
         //success is 200 JSON of the message
         //if unsuccessful, not found/updated - response status is 400
     }
 
     @GetMapping("/accounts/{accountId}/messages")
-    public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable long accountId, @RequestBody List<Message> message) {
-        return ResponseEntity.status(200).body(null);
+    public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable Iterable<Long> accountId, @RequestBody List<Message> message) {
+        List<Message> messageObject = messageService.getMessageByUser(accountId);
+
+        return ResponseEntity.status(200).body(messageObject);
        //status will always be 200;
     }
 
