@@ -7,8 +7,8 @@ import com.example.entity.Message;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +53,7 @@ public class SocialMediaController {
         Account accountObject = accountService.loginAccount(account);
 
         if (accountObject != null) {
-            return ResponseEntity.status(200).body(account);
+            return ResponseEntity.status(200).body(accountObject);
         }
 
         return ResponseEntity.status(401).body(null);
@@ -83,7 +83,7 @@ public class SocialMediaController {
     }
 
     @GetMapping("/messages/{messageId}")
-    public ResponseEntity<Message> getMessageById(@PathVariable long messageId, @RequestBody Message message) {
+    public ResponseEntity<Message> getMessageById(@PathVariable int messageId, @RequestBody Message message) {
         Message messageObject = messageService.getMessageById(messageId);
         
         return ResponseEntity.status(200).body(messageObject);
@@ -91,16 +91,20 @@ public class SocialMediaController {
     }
 
     @DeleteMapping("/messages/{messageId}")
-    public ResponseEntity<Message> deleteMessageById(@PathVariable long messageId, @RequestBody Message message) {
+    public ResponseEntity<Message> deleteMessageById(@PathVariable int messageId, @RequestBody Message message) {
         Message messageObject = messageService.getMessageById(messageId);
+        messageService.deleteMessageById(messageId);
         
         return ResponseEntity.status(200).body(messageObject);
         //status will always be 200;
     }
 
     @PatchMapping("/messages/{messageId}")
-    public ResponseEntity<Message> updateMessageById(@PathVariable long messageId, @RequestBody Message message) {
-        Message messageObject = messageService.updateMessageById(message, messageId);
+    public ResponseEntity<Message> updateMessageById(@PathVariable int messageId, @RequestBody Message message) {
+        Message messageObject = messageService.getMessageById(messageId);
+
+        //if ()
+        messageService.updateMessageById(message, messageId);
 
         if (messageObject != null) {
             return ResponseEntity.status(200).body(messageObject);
@@ -112,7 +116,7 @@ public class SocialMediaController {
     }
 
     @GetMapping("/accounts/{accountId}/messages")
-    public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable Iterable<Long> accountId, @RequestBody List<Message> message) {
+    public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable int accountId, @RequestBody List<Message> message) {
         List<Message> messageObject = messageService.getMessageByUser(accountId);
 
         return ResponseEntity.status(200).body(messageObject);

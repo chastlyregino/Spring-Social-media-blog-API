@@ -21,7 +21,7 @@ public class MessageService {
     AccountRepository accountRepository;
 
     public Message addMessage(Message message) {
-        Optional <Account> optionalAccount = accountRepository.findById(Long.valueOf(message.getPostedBy()));
+        Optional <Account> optionalAccount = accountRepository.findById(message.getPostedBy());
         
         if (!message.getMessageText().isEmpty()
             && message.getMessageText().length() < 256
@@ -36,43 +36,52 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public Message getMessageById(long messageId) {
+    public Message getMessageById(int messageId) {
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
-        Message message = null;
+        //Message message = null;
 
         if (optionalMessage.isPresent()) {
-            message = optionalMessage.get();
+            Message message = optionalMessage.get();
+            return message;
         }
         
-        return message;
+        return null;
     }
 
-    public void deleteMessageById(long messageId) {
+    public void deleteMessageById(int messageId) {
         messageRepository.deleteById(messageId);
     }
 
-    public Message updateMessageById(Message message, long messageId) {
-        Optional<Message> optionalMessage = messageRepository.findById(messageId);
-        Message messageRetrieved = null;
+    public Message updateMessageById(Message message, int messageId) {
 
-        if (optionalMessage.isPresent()) {
-            messageRetrieved = optionalMessage.get();
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        // Message messageRetrieved = null;
+        // need to have the logic conditions for update message.
+
+        if (!message.getMessageText().isEmpty()
+            && message.getMessageText().length() < 256
+            && optionalMessage.isPresent()) {
+            Message messageRetrieved = optionalMessage.get();
+            
             messageRetrieved.setMessageText(message.getMessageText());
             messageRepository.save(messageRetrieved);
+
+            return messageRetrieved;
         }
 
-        optionalMessage = messageRepository.findById(messageId);
-        // ^ to retrieve what is in the database
+        // optionalMessage = messageRepository.findById(messageId);
+        // // ^ to retrieve what is in the database
 
-        if (optionalMessage.isPresent()) {
-            messageRetrieved = optionalMessage.get();
-        }
+        // if (optionalMessage.isPresent()) {
+        //     messageRetrieved = optionalMessage.get();
+        // }
         
-        return messageRetrieved;
+        // return messageRetrieved;
+        return null;
     }
 
-    public List<Message> getMessageByUser(Iterable <Long> posted_by) {
-        return messageRepository.findAllById(posted_by);
+    public List<Message> getMessageByUser(int id) {
+        return messageRepository.findByPostedBy(id);
     }
     
 }
