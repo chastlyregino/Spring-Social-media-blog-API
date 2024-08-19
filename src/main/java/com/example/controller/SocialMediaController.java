@@ -41,8 +41,6 @@ public class SocialMediaController {
         }
 
         return ResponseEntity.status(400).body(null);
-
-        //return account;
         //success is 200 JSON of the acct
         //if unsuccessful, duplicate - response status is 409
         //if unsuccessful, others - response status is 400
@@ -100,10 +98,8 @@ public class SocialMediaController {
             return ResponseEntity.status(200).body(1);
         }
         
-        return ResponseEntity.status(200).build(); //body(messageObject);
+        return ResponseEntity.status(200).build();
         //status will always be 200;
-
-        //this is broken giving 400 error. why?
     }
 
     @PatchMapping("/messages/{messageId}")

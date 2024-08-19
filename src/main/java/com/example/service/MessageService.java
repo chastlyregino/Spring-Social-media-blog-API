@@ -38,7 +38,6 @@ public class MessageService {
 
     public Message getMessageById(int messageId) {
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
-        //Message message = null;
 
         if (optionalMessage.isPresent()) {
             Message message = optionalMessage.get();
@@ -49,7 +48,6 @@ public class MessageService {
     }
 
     public Message deleteMessageById(int messageId) {
-        // messageRepository.deleteById(messageId);
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
 
         if (optionalMessage.isPresent()) {
@@ -64,12 +62,7 @@ public class MessageService {
     }
 
     public Message updateMessageById(Message message, int messageId) {
-        // if (message == null || message.getMessageText() == null) {
-        //     return null;
-        // }
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
-        // Message messageRetrieved = null;
-        // need to have the logic conditions for update message.
 
         if (!message.getMessageText().isEmpty()
             && message.getMessageText().length() <= 255
@@ -77,19 +70,10 @@ public class MessageService {
             Message messageRetrieved = optionalMessage.get();
             
             messageRetrieved.setMessageText(message.getMessageText());
-            return messageRepository.save(messageRetrieved);
 
-            //return messageRetrieved;
+            return messageRepository.save(messageRetrieved);
         }
 
-        // optionalMessage = messageRepository.findById(messageId);
-        // // ^ to retrieve what is in the database
-
-        // if (optionalMessage.isPresent()) {
-        //     messageRetrieved = optionalMessage.get();
-        // }
-        
-        // return messageRetrieved;
         return null;
     }
 

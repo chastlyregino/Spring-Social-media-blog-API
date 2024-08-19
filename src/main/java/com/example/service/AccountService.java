@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional
 public class AccountService {
 
-    @Autowired //do I need to do it as a constructor injection?
+    @Autowired
     AccountRepository accountRepository;
 
     public Account addAccount(Account account) {
@@ -36,7 +36,7 @@ public class AccountService {
             if (accountRetrived.getPassword().equals(account.getPassword())
             && accountRetrived.getUsername().equals(account.getUsername())
             && accountRetrived.getAccountId() != null) {
-                return accountRetrived; //returning accountId as = 0
+                return accountRetrived;
             }
         }
 
