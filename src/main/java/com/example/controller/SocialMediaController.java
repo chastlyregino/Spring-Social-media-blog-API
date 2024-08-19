@@ -101,11 +101,8 @@ public class SocialMediaController {
 
     @PatchMapping("/messages/{messageId}")
     public ResponseEntity<Message> updateMessageById(@PathVariable int messageId, @RequestBody Message message) {
-        Message messageObject = messageService.getMessageById(messageId);
-
-        //if ()
-        messageService.updateMessageById(message, messageId);
-
+        Message messageObject = messageService.updateMessageById(message, messageId);
+        
         if (messageObject != null) {
             return ResponseEntity.status(200).body(messageObject);
         }
