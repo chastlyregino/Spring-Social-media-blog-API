@@ -91,23 +91,30 @@ public class SocialMediaController {
     }
 
     @DeleteMapping("/messages/{messageId}")
-    public ResponseEntity<Message> deleteMessageById(@PathVariable int messageId, @RequestBody Message message) {
+    public ResponseEntity<Integer> deleteMessageById(@PathVariable int messageId) {
         Message messageObject = messageService.getMessageById(messageId);
-        messageService.deleteMessageById(messageId);
+
+        if (messageObject != null) {
+            messageService.deleteMessageById(messageId);
+
+            return ResponseEntity.status(200).body(1);
+        }
         
-        return ResponseEntity.status(200).body(messageObject);
+        return ResponseEntity.status(200).build(); //body(messageObject);
         //status will always be 200;
+
+        //this is broken giving 400 error. why?
     }
 
     @PatchMapping("/messages/{messageId}")
-    public ResponseEntity<Message> updateMessageById(@PathVariable int messageId, @RequestBody Message message) {
+    public ResponseEntity<Integer> updateMessageById(@PathVariable int messageId, @RequestBody Message message) {
         Message messageObject = messageService.updateMessageById(message, messageId);
-        
+
         if (messageObject != null) {
-            return ResponseEntity.status(200).body(messageObject);
+            return ResponseEntity.status(200).body(1);
         }
 
-        return ResponseEntity.status(400).body(null);
+        return ResponseEntity.status(400).build();
         //success is 200 JSON of the message
         //if unsuccessful, not found/updated - response status is 400
     }

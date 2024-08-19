@@ -48,25 +48,38 @@ public class MessageService {
         return null;
     }
 
-    public void deleteMessageById(int messageId) {
-        messageRepository.deleteById(messageId);
+    public Message deleteMessageById(int messageId) {
+        // messageRepository.deleteById(messageId);
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+
+        if (optionalMessage.isPresent()) {
+            Message messageObject = optionalMessage.get();
+
+            messageRepository.delete(messageObject);
+
+            return messageObject;
+        }
+        
+        return null;
     }
 
     public Message updateMessageById(Message message, int messageId) {
-
+        // if (message == null || message.getMessageText() == null) {
+        //     return null;
+        // }
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
         // Message messageRetrieved = null;
         // need to have the logic conditions for update message.
 
         if (!message.getMessageText().isEmpty()
-            && message.getMessageText().length() < 256
+            && message.getMessageText().length() <= 255
             && optionalMessage.isPresent()) {
             Message messageRetrieved = optionalMessage.get();
             
             messageRetrieved.setMessageText(message.getMessageText());
-            messageRepository.save(messageRetrieved);
+            return messageRepository.save(messageRetrieved);
 
-            return messageRetrieved;
+            //return messageRetrieved;
         }
 
         // optionalMessage = messageRepository.findById(messageId);
